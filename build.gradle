@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'me.will0mane.libs'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.prometheus:prometheus-metrics-core:1.4.3'
+    implementation 'io.prometheus:prometheus-metrics-instrumentation-jvm:1.4.3'
+    implementation 'io.prometheus:prometheus-metrics-exporter-httpserver:1.4.3'
+}
+
+tasks.register('sourceJavadoc', Jar) {
+    from sourceSets.main.allSource
+    archiveClassifier.set('sources')
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) {
+            from components.java
+            artifact sourceJavadoc
+        }
+    }
+
+    repositories {
+        maven {
+            url "https://repo.coralmc.it/releases"
+            credentials {
+                username "$mavenUser"
+                password "$mavenPassword"
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+
+        maven {
+            url "https://repo.willomane.com/releases"
+            credentials {
+                username "$willomaneUser"
+                password "$willomanePassword"
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+}
