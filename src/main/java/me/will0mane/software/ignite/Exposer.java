@@ -17,6 +17,7 @@ public class Exposer {
     public void open() throws IOException {
         server = HTTPServer.builder()
                 .port(port)
+                .hostname("0.0.0.0")
                 .buildAndStart();
     }
 
