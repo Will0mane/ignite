@@ -3,6 +3,7 @@ package me.will0mane.software.ignite;
 import io.prometheus.metrics.exporter.httpserver.HTTPServer;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 public class Exposer {
 
@@ -17,7 +18,7 @@ public class Exposer {
     public void open() throws IOException {
         server = HTTPServer.builder()
                 .port(port)
-                .hostname("0.0.0.0")
+                .inetAddress(InetAddress.getByName("0.0.0.0"))
                 .buildAndStart();
     }
 
